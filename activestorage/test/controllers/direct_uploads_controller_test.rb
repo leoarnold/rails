@@ -183,10 +183,10 @@ class ActiveStorage::DiskDirectUploadsControllerTest < ActionDispatch::Integrati
 
   private
     def set_include_root_in_json(value)
-      original = ActiveRecord::Base.include_root_in_json
-      ActiveRecord::Base.include_root_in_json = value
+      original = ::ActiveRecord::Base.include_root_in_json
+      ::ActiveRecord::Base.include_root_in_json = value
       yield
     ensure
-      ActiveRecord::Base.include_root_in_json = original
+      ::ActiveRecord::Base.include_root_in_json = original
     end
 end

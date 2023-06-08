@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-class ActiveStorage::VariantRecord < ActiveStorage::Record
+class ActiveStorage::VariantRecord < ActiveStorage::ActiveRecord::Record
   self.table_name = "active_storage_variant_records"
 
   belongs_to :blob

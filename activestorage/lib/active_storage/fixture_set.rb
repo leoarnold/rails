@@ -39,7 +39,7 @@ module ActiveStorage
   # entry and will ensure the Active Storage relationship is intact.
   class FixtureSet
     include ActiveSupport::Testing::FileFixtures
-    include ActiveRecord::SecureToken
+    include ::ActiveRecord::SecureToken
 
     # Generate a YAML-encoded representation of an ActiveStorage::Blob
     # instance's attributes, resolve the file relative to the directory mentioned

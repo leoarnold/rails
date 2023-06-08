@@ -135,7 +135,7 @@ class ActiveStorage::ManyAttachedTest < ActiveSupport::TestCase
   test "attaching new blobs within a transaction uploads all the files" do
     @user.highlights.attach fixture_file_upload("image.gif")
 
-    ActiveRecord::Base.transaction do
+    ::ActiveRecord::Base.transaction do
       @user.highlights.attach fixture_file_upload("racecar.jpg")
       @user.highlights.attach fixture_file_upload("video.mp4")
     end
@@ -149,7 +149,7 @@ class ActiveStorage::ManyAttachedTest < ActiveSupport::TestCase
   end
 
   test "attaching many new blobs within a transaction uploads all the files" do
-    ActiveRecord::Base.transaction do
+    ::ActiveRecord::Base.transaction do
       @user.highlights.attach [fixture_file_upload("image.gif"), fixture_file_upload("racecar.jpg")]
       @user.highlights.attach fixture_file_upload("video.mp4")
     end
@@ -165,7 +165,7 @@ class ActiveStorage::ManyAttachedTest < ActiveSupport::TestCase
   test "attaching many new blobs within a transaction on a dirty record uploads all the files" do
     @user.name = "Tina"
 
-    ActiveRecord::Base.transaction do
+    ::ActiveRecord::Base.transaction do
       @user.highlights.attach fixture_file_upload("image.gif")
       @user.highlights.attach fixture_file_upload("racecar.jpg")
     end
@@ -196,7 +196,7 @@ class ActiveStorage::ManyAttachedTest < ActiveSupport::TestCase
 
   test "attaching new blobs within a transaction create the exact amount of records" do
     assert_difference -> { ActiveStorage::Blob.count }, +2 do
-      ActiveRecord::Base.transaction do
+      ::ActiveRecord::Base.transaction do
         @user.highlights.attach fixture_file_upload("racecar.jpg")
         @user.highlights.attach fixture_file_upload("video.mp4")
       end

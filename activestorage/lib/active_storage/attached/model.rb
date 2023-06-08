@@ -78,7 +78,7 @@ module ActiveStorage
 
         after_commit(on: %i[ create update ]) { attachment_changes.delete(name.to_s).try(:upload) }
 
-        reflection = ActiveRecord::Reflection.create(
+        reflection = ::ActiveRecord::Reflection.create(
           :has_one_attached,
           name,
           nil,
@@ -86,7 +86,7 @@ module ActiveStorage
           self
         )
         yield reflection if block_given?
-        ActiveRecord::Reflection.add_attachment_reflection(self, name, reflection)
+        ::ActiveRecord::Reflection.add_attachment_reflection(self, name, reflection)
       end
 
       # Specifies the relation between multiple attachments and the model.
@@ -165,7 +165,7 @@ module ActiveStorage
 
         after_commit(on: %i[ create update ]) { attachment_changes.delete(name.to_s).try(:upload) }
 
-        reflection = ActiveRecord::Reflection.create(
+        reflection = ::ActiveRecord::Reflection.create(
           :has_many_attached,
           name,
           nil,
@@ -173,7 +173,7 @@ module ActiveStorage
           self
         )
         yield reflection if block_given?
-        ActiveRecord::Reflection.add_attachment_reflection(self, name, reflection)
+        ::ActiveRecord::Reflection.add_attachment_reflection(self, name, reflection)
       end
 
       private

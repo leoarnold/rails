@@ -170,7 +170,7 @@ module ActiveStorage
     initializer "active_storage.reflection" do
       ActiveSupport.on_load(:active_record) do
         include Reflection::ActiveRecordExtensions
-        ActiveRecord::Reflection.singleton_class.prepend(Reflection::ReflectionExtension)
+        ::ActiveRecord::Reflection.singleton_class.prepend(Reflection::ReflectionExtension)
       end
     end
 

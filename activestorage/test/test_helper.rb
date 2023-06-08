@@ -23,7 +23,7 @@ ActiveStorage::FixtureSet.file_fixture_path = File.expand_path("fixtures/files",
 class ActiveSupport::TestCase
   self.file_fixture_path = ActiveStorage::FixtureSet.file_fixture_path
 
-  include ActiveRecord::TestFixtures
+  include ::ActiveRecord::TestFixtures
 
   self.fixture_paths = [File.expand_path("fixtures", __dir__)]
 
@@ -36,7 +36,7 @@ class ActiveSupport::TestCase
   end
 
   def assert_queries(expected_count, matcher: nil, &block)
-    ActiveRecord::Base.connection.materialize_transactions
+    ::ActiveRecord::Base.connection.materialize_transactions
 
     queries = []
     ActiveSupport::Notifications.subscribe("sql.active_record") do |*, payload|
@@ -102,10 +102,10 @@ class ActiveSupport::TestCase
     end
 
     def with_strict_loading_by_default(&block)
-      strict_loading_was = ActiveRecord::Base.strict_loading_by_default
-      ActiveRecord::Base.strict_loading_by_default = true
+      strict_loading_was = ::ActiveRecord::Base.strict_loading_by_default
+      ::ActiveRecord::Base.strict_loading_by_default = true
       yield
-      ActiveRecord::Base.strict_loading_by_default = strict_loading_was
+      ::ActiveRecord::Base.strict_loading_by_default = strict_loading_was
     end
 
     def without_variant_tracking(&block)
@@ -138,9 +138,9 @@ end
 
 require "global_id"
 GlobalID.app = "ActiveStorageExampleApp"
-ActiveRecord::Base.include GlobalID::Identification
+::ActiveRecord::Base.include GlobalID::Identification
 
-class User < ActiveRecord::Base
+class User < ::ActiveRecord::Base
   validates :name, presence: true
 
   has_one_attached :avatar
@@ -160,7 +160,7 @@ class User < ActiveRecord::Base
   accepts_nested_attributes_for :highlights_attachments, allow_destroy: true
 end
 
-class Group < ActiveRecord::Base
+class Group < ::ActiveRecord::Base
   has_one_attached :avatar
   has_many :users, autosave: true
 

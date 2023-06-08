@@ -14,14 +14,14 @@ class ActiveStorage::StrictLoadingTest < ActiveSupport::TestCase
   end
 
   test "has_one_attached raises if strict loading and lazy loading" do
-    assert_raises ActiveRecord::StrictLoadingViolationError do
+    assert_raises ::ActiveRecord::StrictLoadingViolationError do
       admins = Admin.all
       admins.as_json(include: :image)
     end
   end
 
   test "has_many_attached raises if strict loading and lazy loading" do
-    assert_raises ActiveRecord::StrictLoadingViolationError do
+    assert_raises ::ActiveRecord::StrictLoadingViolationError do
       admins = Admin.all
       admins.as_json(include: :images)
     end

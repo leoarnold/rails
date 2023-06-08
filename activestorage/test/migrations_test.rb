@@ -5,17 +5,17 @@ require "database/setup"
 
 class ActiveStorage::MigrationsTest < ActiveSupport::TestCase
   setup do
-    @original_verbose = ActiveRecord::Migration.verbose
-    ActiveRecord::Migration.verbose = false
+    @original_verbose = ::ActiveRecord::Migration.verbose
+    ::ActiveRecord::Migration.verbose = false
 
-    @connection = ActiveRecord::Base.connection
+    @connection = ::ActiveRecord::Base.connection
     @original_options = Rails.configuration.generators.options.deep_dup
   end
 
   teardown do
     Rails.configuration.generators.options = @original_options
     rerun_migration
-    ActiveRecord::Migration.verbose = @original_verbose
+    ::ActiveRecord::Migration.verbose = @original_verbose
   end
 
   test "migration creates tables with default primary and foreign key types" do

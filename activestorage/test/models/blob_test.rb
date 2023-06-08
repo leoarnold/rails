@@ -23,7 +23,7 @@ class ActiveStorage::BlobTest < ActiveSupport::TestCase
     data = "First file"
     blob = create_blob data: data
 
-    assert_raises ActiveRecord::RecordNotUnique do
+    assert_raises ::ActiveRecord::RecordNotUnique do
       ActiveStorage::Blob.stub :generate_unique_secure_token, blob.key do
         create_blob data: "This would overwrite"
       end
@@ -119,7 +119,7 @@ class ActiveStorage::BlobTest < ActiveSupport::TestCase
   test "compose with unpersisted blobs" do
     blobs = 3.times.map { create_blob(data: "123", filename: "numbers.txt", content_type: "text/plain", identify: false).dup }
 
-    error = assert_raises(ActiveRecord::RecordNotSaved) do
+    error = assert_raises(::ActiveRecord::RecordNotSaved) do
       ActiveStorage::Blob.compose(blobs, filename: "all_numbers.txt")
     end
     assert_equal "All blobs must be persisted.", error.message
@@ -286,7 +286,7 @@ class ActiveStorage::BlobTest < ActiveSupport::TestCase
 
   test "doesn't create a valid blob if service setting is nil" do
     with_service(nil) do
-      assert_raises(ActiveRecord::RecordInvalid) do
+      assert_raises(::ActiveRecord::RecordInvalid) do
         create_blob(filename: "funky.jpg")
       end
     end

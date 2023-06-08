@@ -2,7 +2,7 @@
 
 module ActiveStorage
   module Reflection
-    class HasAttachedReflection < ActiveRecord::Reflection::MacroReflection # :nodoc:
+    class HasAttachedReflection < ::ActiveRecord::Reflection::MacroReflection # :nodoc:
       def variant(name, transformations)
         variants[name] = transformations
       end

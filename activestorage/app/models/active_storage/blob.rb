@@ -16,7 +16,7 @@
 # Blobs are intended to be immutable in as-so-far as their reference to a specific file goes. You're allowed to
 # update a blob's metadata on a subsequent pass, but you should not update the key or change the uploaded file.
 # If you need to create a derivative or otherwise change the blob, simply create a new blob and purge the old one.
-class ActiveStorage::Blob < ActiveStorage::Record
+class ActiveStorage::Blob < ActiveStorage::ActiveRecord::Record
   include Analyzable
   include Identifiable
   include Representable
@@ -26,7 +26,7 @@ class ActiveStorage::Blob < ActiveStorage::Record
   MINIMUM_TOKEN_LENGTH = 28
 
   has_secure_token :key, length: MINIMUM_TOKEN_LENGTH
-  store :metadata, accessors: [ :analyzed, :identified, :composed ], coder: ActiveRecord::Coders::JSON
+  store :metadata, accessors: [ :analyzed, :identified, :composed ], coder: ::ActiveRecord::Coders::JSON
 
   class_attribute :services, default: {}
   class_attribute :service, instance_accessor: false
@@ -52,7 +52,7 @@ class ActiveStorage::Blob < ActiveStorage::Record
   after_update_commit :update_service_metadata, if: -> { content_type_previously_changed? || metadata_previously_changed? }
 
   before_destroy(prepend: true) do
-    raise ActiveRecord::InvalidForeignKey if attachments.exists?
+    raise ::ActiveRecord::InvalidForeignKey if attachments.exists?
   end
 
   validates :service_name, presence: true
@@ -146,7 +146,7 @@ class ActiveStorage::Blob < ActiveStorage::Record
 
     # Concatenate multiple blobs into a single "composed" blob.
     def compose(blobs, filename:, content_type: nil, metadata: nil)
-      raise ActiveRecord::RecordNotSaved, "All blobs must be persisted." if blobs.any?(&:new_record?)
+      raise ::ActiveRecord::RecordNotSaved, "All blobs must be persisted." if blobs.any?(&:new_record?)
 
       content_type ||= blobs.pluck(:content_type).compact.first
 
@@ -323,7 +323,7 @@ class ActiveStorage::Blob < ActiveStorage::Record
   def purge
     destroy
     delete if previously_persisted?
-  rescue ActiveRecord::InvalidForeignKey
+  rescue ::ActiveRecord::InvalidForeignKey
   end
 
   # Enqueues an ActiveStorage::PurgeJob to call #purge. This is the recommended way to purge blobs from a transaction,
