@@ -63,23 +63,23 @@ class ActiveStorage::VariantWithRecordTest < ActiveSupport::TestCase
     user = User.create!(name: "Josh")
 
     blob1 = directly_upload_file_blob(filename: "racecar.jpg")
-    assert_difference -> { ActiveStorage::VariantRecord.count }, +1 do
+    assert_difference -> { ActiveStorage::ActiveRecord::VariantRecord.count }, +1 do
       blob1.representation(resize_to_limit: [100, 100]).process
     end
 
     blob2 = directly_upload_file_blob(filename: "racecar_rotated.jpg")
-    assert_difference -> { ActiveStorage::VariantRecord.count }, +1 do
+    assert_difference -> { ActiveStorage::ActiveRecord::VariantRecord.count }, +1 do
       blob2.representation(resize_to_limit: [100, 100]).process
     end
 
-    assert_no_difference -> { ActiveStorage::VariantRecord.count } do
+    assert_no_difference -> { ActiveStorage::ActiveRecord::VariantRecord.count } do
       user.vlogs.attach(blob1)
       user.vlogs.attach(blob2)
     end
 
     user.reload
 
-    assert_no_difference -> { ActiveStorage::VariantRecord.count } do
+    assert_no_difference -> { ActiveStorage::ActiveRecord::VariantRecord.count } do
       assert_queries(9) do
         # 9 queries:
         # attachments (vlogs) x 1
@@ -98,7 +98,7 @@ class ActiveStorage::VariantWithRecordTest < ActiveSupport::TestCase
 
     user.reload
 
-    assert_no_difference -> { ActiveStorage::VariantRecord.count } do
+    assert_no_difference -> { ActiveStorage::ActiveRecord::VariantRecord.count } do
       assert_queries(7) do
         # 7 queries:
         # attachments (vlogs) x 1
@@ -116,7 +116,7 @@ class ActiveStorage::VariantWithRecordTest < ActiveSupport::TestCase
 
     user.reload
 
-    assert_no_difference -> { ActiveStorage::VariantRecord.count } do
+    assert_no_difference -> { ActiveStorage::ActiveRecord::VariantRecord.count } do
       assert_queries(5) do
         # 5 queries:
         # attachments (vlogs) x 1
@@ -135,7 +135,7 @@ class ActiveStorage::VariantWithRecordTest < ActiveSupport::TestCase
 
     user.reload
 
-    assert_no_difference -> { ActiveStorage::VariantRecord.count } do
+    assert_no_difference -> { ActiveStorage::ActiveRecord::VariantRecord.count } do
       assert_queries(5) do
         # 5 queries:
         # attachments (vlogs) x 1
@@ -154,7 +154,7 @@ class ActiveStorage::VariantWithRecordTest < ActiveSupport::TestCase
 
     user.reload
 
-    assert_no_difference -> { ActiveStorage::VariantRecord.count } do
+    assert_no_difference -> { ActiveStorage::ActiveRecord::VariantRecord.count } do
       assert_queries(6) do
         # 6 queries:
         # user x 1
@@ -176,7 +176,7 @@ class ActiveStorage::VariantWithRecordTest < ActiveSupport::TestCase
 
     user.reload
 
-    assert_difference -> { ActiveStorage::VariantRecord.count }, +2 do
+    assert_difference -> { ActiveStorage::ActiveRecord::VariantRecord.count }, +2 do
       # More queries here because we are creating a different variant.
       # The second time we load this variant, we are back down to just 3 queries.
 
@@ -211,12 +211,12 @@ class ActiveStorage::VariantWithRecordTest < ActiveSupport::TestCase
     blob = create_file_blob(filename: "racecar.jpg")
     variant = blob.variant(resize_to_limit: [100, 100]).processed
 
-    assert_equal 1, ActiveStorage::VariantRecord.count
+    assert_equal 1, ActiveStorage::ActiveRecord::VariantRecord.count
     assert blob.service.exist?(variant.key)
 
     variant.destroy
 
-    assert_equal 0, ActiveStorage::VariantRecord.count
+    assert_equal 0, ActiveStorage::ActiveRecord::VariantRecord.count
     assert_enqueued_with(job: ActiveStorage::PurgeJob, args: [variant.image.blob])
   end
 end
