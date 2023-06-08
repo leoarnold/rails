@@ -15,7 +15,7 @@ class ActiveStorage::VideoTagTest < ActionView::TestCase
   end
 
   test "attachment" do
-    attachment = ActiveStorage::Attachment.new(blob: @blob)
+    attachment = ActiveStorage::ActiveRecord::Attachment.new(blob: @blob)
     assert_dom_equal %(<video src="#{polymorphic_url attachment}" />), video_tag(attachment)
   end
 

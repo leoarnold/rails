@@ -13,7 +13,7 @@ module ActiveStorage
     end
 
     def attachments
-      ActiveStorage::Attachment.none
+      ActiveStorage::ActiveRecord::Attachment.none
     end
 
     def blobs

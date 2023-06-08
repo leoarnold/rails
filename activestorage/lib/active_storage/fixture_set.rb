@@ -13,12 +13,12 @@ module ActiveStorage
   #
   # === YAML
   #
-  # Like other Active Record-backed models, ActiveStorage::Attachment and
+  # Like other Active Record-backed models, ActiveStorage::ActiveRecord::Attachment and
   # ActiveStorage::Blob records inherit from ActiveRecord::Base instances and
   # therefore can be populated by fixtures.
   #
   # Consider a hypothetical <tt>Article</tt> model class, its related
-  # fixture data, as well as fixture data for related ActiveStorage::Attachment
+  # fixture data, as well as fixture data for related ActiveStorage::ActiveRecord::Attachment
   # and ActiveStorage::Blob records:
   #
   #   # app/models/article.rb

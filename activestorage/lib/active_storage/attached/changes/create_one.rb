@@ -50,7 +50,7 @@ module ActiveStorage
       end
 
       def build_attachment
-        ActiveStorage::Attachment.new(record: record, name: name, blob: blob)
+        ActiveStorage::ActiveRecord::Attachment.new(record: record, name: name, blob: blob)
       end
 
       def find_or_build_blob

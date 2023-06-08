@@ -15,7 +15,7 @@ class ActiveStorage::AudioTagTest < ActionView::TestCase
   end
 
   test "attachment" do
-    attachment = ActiveStorage::Attachment.new(blob: @blob)
+    attachment = ActiveStorage::ActiveRecord::Attachment.new(blob: @blob)
     assert_dom_equal %(<audio src="#{polymorphic_url attachment}" />), audio_tag(attachment)
   end
 

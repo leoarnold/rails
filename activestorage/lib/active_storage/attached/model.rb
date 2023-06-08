@@ -24,7 +24,7 @@ module ActiveStorage
       #   User.with_attached_avatar
       #
       # Under the covers, this relationship is implemented as a +has_one+ association to a
-      # ActiveStorage::Attachment record and a +has_one-through+ association to a
+      # ActiveStorage::ActiveRecord::Attachment record and a +has_one-through+ association to a
       # ActiveStorage::Blob record. These associations are available as +avatar_attachment+
       # and +avatar_blob+. But you shouldn't need to work with these associations directly in
       # most circumstances.
@@ -69,7 +69,7 @@ module ActiveStorage
           end
         CODE
 
-        has_one :"#{name}_attachment", -> { where(name: name) }, class_name: "ActiveStorage::Attachment", as: :record, inverse_of: :record, dependent: :destroy, strict_loading: strict_loading
+        has_one :"#{name}_attachment", -> { where(name: name) }, class_name: "ActiveStorage::ActiveRecord::Attachment", as: :record, inverse_of: :record, dependent: :destroy, strict_loading: strict_loading
         has_one :"#{name}_blob", through: :"#{name}_attachment", class_name: "ActiveStorage::Blob", source: :blob, strict_loading: strict_loading
 
         scope :"with_attached_#{name}", -> { includes("#{name}_attachment": :blob) }
@@ -103,7 +103,7 @@ module ActiveStorage
       #   Gallery.where(user: Current.user).with_attached_photos
       #
       # Under the covers, this relationship is implemented as a +has_many+ association to a
-      # ActiveStorage::Attachment record and a +has_many-through+ association to a
+      # ActiveStorage::ActiveRecord::Attachment record and a +has_many-through+ association to a
       # ActiveStorage::Blob record. These associations are available as +photos_attachments+
       # and +photos_blobs+. But you shouldn't need to work with these associations directly in
       # most circumstances.
@@ -150,7 +150,7 @@ module ActiveStorage
           end
         CODE
 
-        has_many :"#{name}_attachments", -> { where(name: name) }, as: :record, class_name: "ActiveStorage::Attachment", inverse_of: :record, dependent: :destroy, strict_loading: strict_loading
+        has_many :"#{name}_attachments", -> { where(name: name) }, as: :record, class_name: "ActiveStorage::ActiveRecord::Attachment", inverse_of: :record, dependent: :destroy, strict_loading: strict_loading
         has_many :"#{name}_blobs", through: :"#{name}_attachments", class_name: "ActiveStorage::Blob", source: :blob, strict_loading: strict_loading
 
         scope :"with_attached_#{name}", -> {

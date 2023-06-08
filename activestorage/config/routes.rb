@@ -28,7 +28,7 @@ Rails.application.routes.draw do
   end
 
   resolve("ActiveStorage::Blob")       { |blob, options| route_for(ActiveStorage.resolve_model_to_route, blob, options) }
-  resolve("ActiveStorage::Attachment") { |attachment, options| route_for(ActiveStorage.resolve_model_to_route, attachment.blob, options) }
+  resolve("ActiveStorage::ActiveRecord::Attachment") { |attachment, options| route_for(ActiveStorage.resolve_model_to_route, attachment.blob, options) }
 
   direct :rails_storage_proxy do |model, options|
     expires_in = options.delete(:expires_in) { ActiveStorage.urls_expire_in }

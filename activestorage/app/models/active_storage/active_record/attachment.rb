@@ -17,7 +17,7 @@ require "active_support/core_ext/module/delegation"
 #
 #   # preloads blobs and variant records (if using `ActiveStorage.track_variants`)
 #   User.first.avatars.with_all_variant_records
-class ActiveStorage::Attachment < ActiveStorage::ActiveRecord::Record
+class ActiveStorage::ActiveRecord::Attachment < ActiveStorage::ActiveRecord::Record
   self.table_name = "active_storage_attachments"
 
   ##
@@ -156,4 +156,4 @@ class ActiveStorage::Attachment < ActiveStorage::ActiveRecord::Record
     end
 end
 
-ActiveSupport.run_load_hooks :active_storage_attachment, ActiveStorage::Attachment
+ActiveSupport.run_load_hooks :active_storage_attachment, ActiveStorage::ActiveRecord::Attachment

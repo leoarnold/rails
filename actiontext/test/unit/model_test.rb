@@ -45,7 +45,7 @@ class ActionText::ModelTest < ActiveSupport::TestCase
     content = ActionText::Content.new(remote_image_html).append_attachables(blob)
     message = Message.create!(subject: "Greetings", content: content)
     assert_equal [ActionText::Attachables::RemoteImage, ActiveStorage::Blob], message.content.body.attachables.map(&:class)
-    assert_equal [ActiveStorage::Attachment], message.content.embeds.map(&:class)
+    assert_equal [ActiveStorage::ActiveRecord::Attachment], message.content.embeds.map(&:class)
   end
 
   test "embed extraction deduplicates file attachments" do

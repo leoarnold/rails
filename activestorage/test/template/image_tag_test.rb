@@ -26,7 +26,7 @@ class ActiveStorage::ImageTagTest < ActionView::TestCase
   end
 
   test "attachment" do
-    attachment = ActiveStorage::Attachment.new(blob: @blob)
+    attachment = ActiveStorage::ActiveRecord::Attachment.new(blob: @blob)
     assert_dom_equal %(<img src="#{polymorphic_url attachment}" />), image_tag(attachment)
   end
 
